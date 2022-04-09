@@ -1,8 +1,8 @@
-
 import React, { useState } from "react";
+
 import classes from "./App.css";
-import Person from "../components/Persons/Person/Person";
-import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
+import Persons from "../components/Persons/Persons";
+import Cockpit from "../components/Cockpit/Cockpit";
 
 const App = () => {
   const [items, setItems] = useState({
@@ -18,7 +18,7 @@ const App = () => {
 
   const nameChangedHandler = ( event, id ) => {
     const personIndex = items.persons.findIndex( p =>  {
-      return p.userId === id
+      return p.id === id
     } );
     
     const person = { ...items.persons[personIndex] };
@@ -46,40 +46,20 @@ const App = () => {
   }
 
   let persons = null;
-  let btnClass = "";
 
   if ( items.showPersons ) {
-    persons = (
-      <div>
-        {items.persons.map( ( person, index ) => {
-          return (
-            <ErrorBoundary key={person.id}>
-              <Person click={() => deletePersonHandler( index )}
-                name={person.name}
-                age={person.age}
-                changed={( event ) => nameChangedHandler( event, person.id )}/>
-            </ErrorBoundary>
-          )
-        } )}
-      </div>
-    );
-
-    btnClass = classes.Red;
-  }
-
-  const assignedClasses = [];
-  if ( items.persons.length <= 2 ) {
-    assignedClasses.push( classes.red );
-  }
-  if ( items.persons.length <= 1 ) {
-    assignedClasses.push(classes.bold)
+    persons = <Persons
+          persons={items.persons}
+          clicked={deletePersonHandler}
+          changed={nameChangedHandler} />
   }
 
   return (
     <div className={classes.App}>
-      <h1>Hi! I'm a react app</h1>
-      <p className={assignedClasses.join( " " )}>This is really working!</p>
-      <button className={btnClass} onClick={togglePersonsHandler}>Toggle Persons</button>
+      <Cockpit
+        showPersons={items.showPersons}
+        persons={items.persons} 
+        clicked={togglePersonsHandler} />
       {persons}
     </div>
   );
