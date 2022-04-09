@@ -1,8 +1,8 @@
 
 import React, { useState } from "react";
 import classes from "./App.css";
-import Person from "./Person/Person";
-import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
+import Person from "../components/Persons/Person/Person";
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 const App = () => {
   const [items, setItems] = useState({
